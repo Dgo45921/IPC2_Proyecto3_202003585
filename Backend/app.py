@@ -1,5 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
+import ManejoXML
+
 
 app = Flask(__name__)
 CORS(app)
@@ -13,7 +15,7 @@ def Index():
 @app.route('/procesarxml', methods=["POST"])
 def procesar_xml():
     data = request.json["xml"]
-    print("xml a analizar:", data)
+    ManejoXML.analizar(data)
     return "recibido"
 
 

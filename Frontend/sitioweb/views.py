@@ -9,9 +9,9 @@ def home(request):
 
 
 def obtienedata(request):
-    print("hola me han hecho una peticion")
+    # print("hola me han hecho una peticion")
     xml_recibido = request.POST['input']
-    print(xml_recibido)
+    # print(xml_recibido)
     diccionario = {"xml": xml_recibido}
     respuesta = requests.post("http://127.0.0.1:5000/procesarxml", json=diccionario)
     print(respuesta.text)
