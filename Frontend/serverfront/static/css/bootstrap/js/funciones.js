@@ -9,7 +9,7 @@ function cargarXML(event){
     fr.onload = function (event){
         var contenido_xml = event.target.result
         console.log(contenido_xml)
-        area_entrada = document.getElementById('area_entrada')
+        area_entrada = document.getElementById('input')
         area_entrada.value = contenido_xml
    }
     fr.readAsText(archivo)

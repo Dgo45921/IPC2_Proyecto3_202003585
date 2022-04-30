@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Untitled</title>
+    <title>App mensajes</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap/css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="{% static 'css/css/Navbar-Right-Links.css'%}">
     <link rel="stylesheet" href="{% static 'css/css/styles.css'%}">
@@ -12,7 +12,7 @@
 
 <body>
     <nav class="navbar navbar-light navbar-expand-md py-3">
-        <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-bezier">
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-bezier">
                         <path fill-rule="evenodd" d="M0 10.5A1.5 1.5 0 0 1 1.5 9h1A1.5 1.5 0 0 1 4 10.5v1A1.5 1.5 0 0 1 2.5 13h-1A1.5 1.5 0 0 1 0 11.5v-1zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zm10.5.5A1.5 1.5 0 0 1 13.5 9h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5v-1zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM6 4.5A1.5 1.5 0 0 1 7.5 3h1A1.5 1.5 0 0 1 10 4.5v1A1.5 1.5 0 0 1 8.5 7h-1A1.5 1.5 0 0 1 6 5.5v-1zM7.5 4a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1z"></path>
                         <path d="M6 4.5H1.866a1 1 0 1 0 0 1h2.668A6.517 6.517 0 0 0 1.814 9H2.5c.123 0 .244.015.358.043a5.517 5.517 0 0 1 3.185-3.185A1.503 1.503 0 0 1 6 5.5v-1zm3.957 1.358A1.5 1.5 0 0 0 10 5.5v-1h4.134a1 1 0 1 1 0 1h-2.668a6.517 6.517 0 0 1 2.72 3.5H13.5c-.123 0-.243.015-.358.043a5.517 5.517 0 0 0-3.185-3.185z"></path>
                     </svg></span><span>App mensajes</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
@@ -20,23 +20,35 @@
             <ul class="navbar-nav">
                 <input onchange="cargarXML(event)" type="file" id="my_file" style="display: none" accept="text/xml">
                 <li class="nav-item"><a class="nav-link" href="#" id="get_file">Cargar xml</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Second Item</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Third Item</a></li>
-                <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Messages</a>
+                 <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Peticiones</a>
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Inbox</a>
-                            <a href="#" class="dropdown-item">Drafts</a>
-                            <a href="#" class="dropdown-item">Sent Items</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">Trash</a>
+                            <a href="#" class="dropdown-item">Consultar Datos</a>
+                            <a href="#" class="dropdown-item">Resumen de clasificación por fecha</a>
+                            <a href="#" class="dropdown-item">Resumen por rango de fechas</a>
+                            <a href="#" class="dropdown-item">Reporte en PDF</a>
+                            <a href="#" class="dropdown-item">Prueba de mensaje</a>
                         </div>
                 </li>
+                 <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Ayuda</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Información del estudiante</a>
+                            <a href="#" class="dropdown-item">Documentación del software</a>
+                        </div>
+                </li>
+
             </ul>
         </div>
     </nav>
-    <textarea readonly id="area_entrada" style="width: 500px;height: 600px;margin-top: 100px;margin-left: 290px;"></textarea>
-    <textarea readonly id="area_salida" style="width: 500px;height: 600px;margin-top: 100px;margin-left: 100px;"></textarea>
+    <button type="button" class="btn btn-danger" style="position: absolute; top: 100px; left: 1600px">Resetear base de datos</button>
+    <form action="/obtienedata/" , method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success" style="position: absolute; top: 100px; left: 1450px">Analizar xml</button>
+        <textarea readonly name="input" id="input" style="width: 500px;height: 600px;margin-top: 100px;margin-left: 290px;">{{input}}</textarea>
+    </form>
+
+    <textarea readonly id="area_salida" style="width: 500px;height: 600px; position: absolute; left: 950px; top: 174px"></textarea>
     <script src="{% static 'css/bootstrap/js/bootstrap.min.js'%}"></script>
     <script src="{% static 'css/bootstrap/js/funciones.js'%}"></script>
 </body>
