@@ -1,6 +1,6 @@
 from xml.dom import minidom
 import xml.etree.ElementTree as ET
-from xml.etree.ElementTree import Element, SubElement, Comment, tostring
+from xml.etree.ElementTree import Element, SubElement
 from Empresa import Empresa
 from Servicio import Servicio
 from Mensaje import Mensaje
@@ -22,8 +22,6 @@ def analizar(texto):
     lista_texto_mensajes.clear()
     mensajes_positivos.clear()
     mensajes_negativos.clear()
-    palabras_negativas.clear()
-    palabras_positivas.clear()
     lista_mensajes.clear()
 
     raiz = ET.fromstring(texto)
@@ -85,6 +83,96 @@ def analizar(texto):
     return xml_texto
 
 
+def analizar_prueba(texto):
+    raiz = ET.fromstring(texto)
+    mensaje = raiz.text
+    data_lugar = re.search(r"(Lugar y fecha:)(\s)*(\w+)(\s)*[,]", mensaje).group()
+    data_usuario = re.search(r"(Usuario):(\s)*([^\s]+)", mensaje).group()
+    fecha = re.search(r"(\d{2})[\/](\d{2})[\/](\d{4})", mensaje).group()
+    hora = re.search(r"(\d{2}:\d{2})", mensaje).group()
+    data_red_social = re.search(r"(Red social):(\s)*([^\s]+)", mensaje).group()
+    mensaje.replace(data_lugar, "")
+    mensaje.replace(data_usuario, "")
+    mensaje.replace(fecha, "")
+    mensaje.replace(data_red_social, "")
+    # mensaje.replace("\n", "")
+    lugar = data_lugar.split(":")[1]
+    usuario = data_usuario.split(":")[1]
+    red_social = data_red_social.split(":")[1]
+    nuevo_mensaje = Mensaje(lugar, fecha, hora, usuario, red_social, mensaje)
+    respuesta = analizar_mensaje_prueba(nuevo_mensaje)
+    return respuesta
+
+
+def analizar_mensaje_prueba(objeto_mensaje):
+    empresas_leidas = []
+    raiz = Element("respuesta")
+    fecha = SubElement(raiz, "fecha")
+    fecha.text = objeto_mensaje.fecha
+    red_social = SubElement(raiz, "red_social")
+    red_social.text = objeto_mensaje.red_social
+    usuario = SubElement(raiz, "usuario")
+    usuario.text = objeto_mensaje.autor
+    empresas = SubElement(raiz, "empresas")
+    for empresa in lista_empresas:
+        if empresa.nombre not in empresas_leidas:
+            u = unidecode(empresa.nombre, "utf-8").lower()
+            u2 = unidecode(objeto_mensaje.texto, "utf-8").lower()
+            if u in u2:
+                tag_empresa = SubElement(empresas, "empresa", {"nombre": empresa.nombre})
+                for servicio in empresa.servicios:
+                    alias_servicio = servicio.alias
+                    for i in range(len(alias_servicio)):
+                        alias_servicio[i] = unidecode(alias_servicio[i], "utf-8").lower()
+                    name_servicio = unidecode(servicio.nombre, "utf-8").lower()
+                    if name_servicio in u2 or check_word_in_string(u2, alias_servicio):
+                        tag_servicio = SubElement(tag_empresa, "servicio")
+                        tag_servicio.text = servicio.nombre
+
+    contadores_prueba = genera_contadores_prueba(objeto_mensaje)
+    total_palabras = contadores_prueba[0]
+    tag_positivas = SubElement(raiz, "palabras_positivas")
+    tag_positivas.text = str(contadores_prueba[1])
+    tag_negativas = SubElement(raiz, "palabras_negativas")
+    tag_negativas.text = str(contadores_prueba[2])
+    tag_sentimiento_positivo = SubElement(raiz, "sentimiento_positivo")
+    tag_sentimiento_positivo.text = str((contadores_prueba[1]/total_palabras)*100) + " %"
+    tag_sentimiento_negativo = SubElement(raiz, "sentimiento_negativo")
+    tag_sentimiento_negativo.text = str((contadores_prueba[2]/total_palabras)*100) + " %"
+    tag_sentimiento_analizado = SubElement(raiz, "sentimiento_analizado")
+    if contadores_prueba[1] > contadores_prueba[2]:
+        tag_sentimiento_analizado.text = "positivo"
+    elif contadores_prueba[1] < contadores_prueba[2]:
+        tag_sentimiento_analizado.text = "negativo"
+    else:
+        tag_sentimiento_analizado.text = "neutro"
+
+    return prettify(raiz)
+
+
+def genera_contadores_prueba(mensaje):
+    contadores = []
+    contador_positivas = 0
+    contador_negativas = 0
+    for positivo in palabras_positivas:
+        u = unidecode(positivo, "utf-8").lower()
+        u2 = unidecode(mensaje.texto, "utf-8").lower()
+        if u in u2:
+            contador_positivas += 1
+
+    for negativo in palabras_negativas:
+        u = unidecode(negativo, "utf-8").lower()
+        u2 = unidecode(mensaje.texto, "utf-8").lower()
+        if u in u2:
+            contador_negativas += 1
+
+    total_palabras = contador_positivas + contador_negativas
+    contadores.append(total_palabras)
+    contadores.append(contador_positivas)
+    contadores.append(contador_negativas)
+    return contadores
+
+
 def analizar_mensajes():
     for i in range(len(lista_texto_mensajes)):
         data_lugar = re.search(r"(Lugar y fecha:)(\s)*(\w+)(\s)*[,]", lista_texto_mensajes[i]).group()
@@ -96,7 +184,7 @@ def analizar_mensajes():
         lista_texto_mensajes[i] = lista_texto_mensajes[i].replace(data_usuario, "")
         lista_texto_mensajes[i] = lista_texto_mensajes[i].replace(fecha, "")
         lista_texto_mensajes[i] = lista_texto_mensajes[i].replace(data_red_social, "")
-        lista_texto_mensajes[i] = lista_texto_mensajes[i].replace("\n", "")
+        # lista_texto_mensajes[i] = lista_texto_mensajes[i].replace("\n", "")
         lugar = data_lugar.split(":")[1]
         usuario = data_usuario.split(":")[1]
         red_social = data_red_social.split(":")[1]
@@ -148,7 +236,8 @@ def crear_xml():
             neutros_empresa.text = str(lista_contadores_empresa[3])
             servicios = SubElement(tag_empresa, "servicios")
             for servicio in empresa.servicios:
-                lista_contadores_servicio = calcular_totales_servicio(fecha_actual, empresa.nombre, servicio.nombre, servicio.alias)
+                lista_contadores_servicio = calcular_totales_servicio(fecha_actual, empresa.nombre, servicio.nombre,
+                                                                      servicio.alias)
                 tag_servicio = SubElement(servicios, "servicio", {"nombre": servicio.nombre})
                 tag_mensajes_servicio = SubElement(tag_servicio, "mensajes")
                 total_servicio = SubElement(tag_mensajes_servicio, "total")
@@ -296,6 +385,7 @@ def check_word_in_string(cadena, lista):
         if lista[i] in cadena:
             return True
     return False
+
 
 def prettify(elem):
     """Return a pretty-printed XML string for the Element.

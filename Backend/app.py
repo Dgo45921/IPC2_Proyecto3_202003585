@@ -19,5 +19,13 @@ def procesar_xml():
     return texto_xml
 
 
+@app.route('/procesarxml_prueba', methods=["POST"])
+def procesar_xml_prueba():
+    data = request.json["xml"]
+    resultado = ManejoXML.analizar_prueba(data)
+    print(resultado)
+    return resultado
+
+
 if __name__ == '__main__':
     app.run(debug=True)

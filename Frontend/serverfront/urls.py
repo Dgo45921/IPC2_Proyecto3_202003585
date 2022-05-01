@@ -20,5 +20,7 @@ from sitioweb import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home),
-    path('obtienedata/', views.obtienedata)
+    path('obtienedata/', views.obtienedata),
+    path('mensaje_prueba/', views.mensaje_prueba),
+    path('obtienedataprueba/', views.obtiene_data_mensaje_prueba)
 ]
