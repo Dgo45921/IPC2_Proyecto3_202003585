@@ -82,6 +82,7 @@ def analizar(texto):
         # print(texto_mensaje)
         lista_texto_mensajes.append(texto_mensaje)
     xml_texto = analizar_mensajes()
+    return xml_texto
 
 
 def analizar_mensajes():
@@ -159,7 +160,7 @@ def crear_xml():
                 neutros_servicio = SubElement(tag_mensajes_servicio, "neutros")
                 neutros_servicio.text = str(lista_contadores_servicio[3])
 
-    print(prettify(raiz))
+    return prettify(raiz)
 
 
 def calcular_totales_fecha(fecha):

@@ -15,8 +15,8 @@ def Index():
 @app.route('/procesarxml', methods=["POST"])
 def procesar_xml():
     data = request.json["xml"]
-    ManejoXML.analizar(data)
-    return "recibido"
+    texto_xml = ManejoXML.analizar(data)
+    return texto_xml
 
 
 if __name__ == '__main__':
