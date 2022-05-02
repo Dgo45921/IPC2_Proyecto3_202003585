@@ -22,8 +22,6 @@ def obtienedata(request):
     dt_string = now.strftime("%Y_%m_%d_%H_%M_%S")
     name = "respuesta_" + dt_string
     Respuesta.objects.create(texto=respuesta.text, name=name)
-    texto = Respuesta.objects.last().texto
-    print(texto)
     return render(request, 'sitioweb/index.html', {"input": xml_recibido, "output": respuesta.text})
 
 
@@ -34,3 +32,15 @@ def obtiene_data_mensaje_prueba(request):
     respuesta = requests.post("http://127.0.0.1:5000/procesarxml_prueba", json=diccionario)
     # print(respuesta.text)
     return render(request, 'sitioweb/mensaje_prueba.html', {"input": xml_recibido, "output": respuesta.text})
+
+
+def obtiene_ultimo_registro(request):
+    texto = Respuesta.objects.last().texto
+    print(texto)
+    return render(request, 'sitioweb/index.html', {"output": texto})
+
+
+def limpia_base(request):
+    print("borrando base")
+    Respuesta.objects.all().delete()
+    return render(request, 'sitioweb/index.html')

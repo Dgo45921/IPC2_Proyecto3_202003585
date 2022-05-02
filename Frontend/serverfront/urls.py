@@ -22,5 +22,7 @@ urlpatterns = [
     path('', views.home),
     path('obtienedata/', views.obtienedata),
     path('mensaje_prueba/', views.mensaje_prueba),
-    path('obtienedataprueba/', views.obtiene_data_mensaje_prueba)
+    path('obtienedataprueba/', views.obtiene_data_mensaje_prueba),
+    path('obtieneultimoregistro/', views.obtiene_ultimo_registro),
+    path('limpiarbase/', views.limpia_base)
 ]

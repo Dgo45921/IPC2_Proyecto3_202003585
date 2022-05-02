@@ -23,7 +23,7 @@
                  <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Peticiones</a>
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Consultar Datos</a>
+                            <a href="/obtieneultimoregistro/" class="dropdown-item">Consultar Datos</a>
                             <a href="#" class="dropdown-item">Resumen de clasificación por fecha</a>
                             <a href="#" class="dropdown-item">Resumen por rango de fechas</a>
                             <a href="#" class="dropdown-item">Reporte en PDF</a>
@@ -41,7 +41,7 @@
             </ul>
         </div>
     </nav>
-    <button type="button" class="btn btn-danger" style="position: absolute; top: 100px; left: 1600px">Resetear base de datos</button>
+    <button type="button" class="btn btn-danger" style="position: absolute; top: 100px; left: 1600px"><a href="/limpiarbase/" style="color: white; text-decoration: none">Resetear base de datos</a></button>
     <form action="/obtienedataprueba/" , method="POST">
         {% csrf_token %}
         <button type="submit" class="btn btn-success" style="position: absolute; top: 100px; left: 1450px">Analizar xml</button>
