@@ -30,14 +30,16 @@ def analizar(texto):
     # encontrando palabras positivas
     positivos = raiz.find("./diccionario/sentimientos_positivos")
     for palabra in positivos.findall("./palabra"):
-        palabras_positivas.append(palabra.text)
+        if palabra.text not in palabras_positivas:
+            palabras_positivas.append(palabra.text)
         # print(palabra.text)
 
     # encontrando palabras negativas
 
     negativos = raiz.find("./diccionario/sentimientos_negativos")
     for palabra in negativos.findall("./palabra"):
-        palabras_negativas.append(palabra.text)
+        if palabra.text not in palabras_negativas:
+            palabras_negativas.append(palabra.text)
         # print(palabra.text)
 
     # encontrando las empresas en el xml

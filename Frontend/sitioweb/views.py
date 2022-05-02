@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
-import requests
+from .models import Respuesta
+import requests, datetime
 
 
 # Create your views here.
@@ -18,7 +18,12 @@ def obtienedata(request):
     # print(xml_recibido)
     diccionario = {"xml": xml_recibido}
     respuesta = requests.post("http://127.0.0.1:5000/procesarxml", json=diccionario)
-    # print(respuesta.text)
+    now = datetime.datetime.now()
+    dt_string = now.strftime("%Y_%m_%d_%H_%M_%S")
+    name = "respuesta_" + dt_string
+    Respuesta.objects.create(texto=respuesta.text, name=name)
+    texto = Respuesta.objects.last().texto
+    print(texto)
     return render(request, 'sitioweb/index.html', {"input": xml_recibido, "output": respuesta.text})
 
 
