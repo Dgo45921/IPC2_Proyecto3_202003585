@@ -2,7 +2,6 @@ from flask import Flask, request
 from flask_cors import CORS
 import ManejoXML
 
-
 app = Flask(__name__)
 CORS(app)
 
@@ -23,8 +22,14 @@ def procesar_xml():
 def procesar_xml_prueba():
     data = request.json["xml"]
     resultado = ManejoXML.analizar_prueba(data)
-    print(resultado)
+    # print(resultado)
     return resultado
+
+
+@app.route('/resumen_fecha', methods=["POST"])
+def generar_resumen_fecha():
+
+    return "hola"
 
 
 if __name__ == '__main__':

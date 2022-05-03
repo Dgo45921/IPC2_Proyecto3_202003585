@@ -24,5 +24,7 @@ urlpatterns = [
     path('mensaje_prueba/', views.mensaje_prueba),
     path('obtienedataprueba/', views.obtiene_data_mensaje_prueba),
     path('obtieneultimoregistro/', views.obtiene_ultimo_registro),
-    path('limpiarbase/', views.limpia_base)
+    path('limpiarbase/', views.limpia_base),
+    path('resumen_fecha/', views.resumen_fecha),
+    path('info_resumen_fecha/', views.info_resumen_fecha)
 ]
