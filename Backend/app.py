@@ -28,6 +28,13 @@ def procesar_xml_prueba():
 
 @app.route('/resumen_fecha', methods=["POST"])
 def generar_resumen_fecha():
+    date = request.json["fecha"]
+    empresa = request.json["empresa"]
+    texto_xml = request.json["xml"]
+
+    print("La empresa: ", empresa)
+    print("La fecha: ", date)
+    print("el xml es: ", texto_xml)
 
     return "hola"
 

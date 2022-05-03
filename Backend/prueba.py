@@ -197,6 +197,8 @@ def analizar_mensajes():
 
 
 def crear_xml():
+    fecha_actual = ""
+    analisis_x = None
     fechas_leidas = []
     empresas_leidas = []
     raiz = Element("lista_respuestas")
@@ -206,6 +208,7 @@ def crear_xml():
             respuesta = SubElement(raiz, "respuesta")
             fecha = SubElement(respuesta, "fecha")
             fecha.text = mensaje.fecha
+            fecha_actual = fecha.text
             lista_contadores = calcular_totales_fecha(mensaje.fecha)
             mensajes = SubElement(respuesta, "mensajes")
             total = SubElement(mensajes, "total")
@@ -217,15 +220,18 @@ def crear_xml():
             neutros = SubElement(mensajes, "neutros")
             neutros.text = str(lista_contadores[3])
             analisis = SubElement(respuesta, "analisis")
+            analisis_x = analisis
     texto_actual = ET.tostring(raiz)
-    # print(prettify(raiz))
+    print(prettify(raiz))
     # print(type(texto_actual))
     # print(texto_actual)
     raiz = ET.fromstring(texto_actual)
     # print(raiz.tag)
     for respuesta in raiz.findall("./respuesta"):
         fecha = respuesta.find("./fecha")
+        print(fecha.text)
         analisis = respuesta.find("./analisis")
+        print(analisis.tag)
         for empresa in lista_empresas:
             empresas_leidas.append(empresa.nombre)
             lista_contadores_empresa = calcular_totales_empresa(fecha.text, empresa.nombre)
@@ -254,6 +260,7 @@ def crear_xml():
                 neutros_servicio = SubElement(tag_mensajes_servicio, "neutros")
                 neutros_servicio.text = str(lista_contadores_servicio[3])
 
+    print(prettify(raiz))
     return prettify(raiz)
 
 
@@ -394,10 +401,88 @@ def check_word_in_string(cadena, lista):
     return False
 
 
-
 def prettify(elem):
     """Return a pretty-printed XML string for the Element.
     """
     rough_string = ET.tostring(elem, 'utf-8')
     reparsed = minidom.parseString(rough_string)
-    return reparsed.toprettyxml(indent="  ")
+    return reparsed.toprettyxml(indent="    ")
+
+
+texto = """<?xml version="1.0" encoding="UTF-8"?>
+<solicitud_clasificacion>
+   <diccionario>
+      <sentimientos_positivos>
+         <palabra>bueno</palabra>
+         <palabra>excelente</palabra>
+         <palabra>cool</palabra>
+         <palabra>satisfecho</palabra>
+      </sentimientos_positivos>
+      <sentimientos_negativos>
+         <palabra>malo</palabra>
+         <palabra>pésimo</palabra>
+         <palabra>triste</palabra>
+         <palabra>molesto</palabra>
+         <palabra>decepcionado</palabra>
+         <palabra>enojo</palabra>
+      </sentimientos_negativos>
+      <empresas_analizar>
+         <empresa>
+            <nombre>USAC</nombre>
+            <servicio nombre="inscripción">
+               <alias>inscribí</alias>
+               <alias>inscrito</alias>
+            </servicio>
+            <servicio nombre="asignación">
+               <alias>asignado</alias>
+               <alias>asigné</alias>
+            </servicio>
+            <servicio nombre="graduación">
+               <alias>graduado</alias>
+            </servicio>
+         </empresa>
+         <empresa>
+            <nombre>UMG</nombre>
+            <servicio nombre="Clases">
+               <alias>clasesita</alias>
+               <alias>clasinga</alias>
+            </servicio>
+            <servicio nombre="pagos">
+               <alias>deposito</alias>
+            </servicio>
+            <servicio nombre="graduación">
+               <alias>graduado</alias>
+            </servicio>
+         </empresa>
+      </empresas_analizar>
+   </diccionario>
+   <lista_mensajes>
+      <mensaje>Lugar y fecha: Guatemala, 01/04/2022 15:01 Usuario:
+		map0001@usac.edu Red social: Twitter
+		El servicio en la USAC para inscripción fue muy bueno y me siento muy satisfecho. positivo
+		</mensaje>
+		
+      <mensaje>Lugar y fecha: Guatemala, 01/04/2022 15:20 Usuario: map0002@usac.edu Red social: Facebook Hoy me asigné
+		en la USAC, no encontré parqueo e inicié molesto mi gestión, luego tuve que hacer
+		cola y me indicaron que era la cola incorrecta, esto me enojó mucho y mejor me
+		fui.negativo
+		</mensaje>
+		
+      <mensaje>Lugar y fecha: Guatemala, 02/04/2022 15:43 Usuario: map0003@usac.edu
+Red social: WhatsApp
+Ya estoy inscrito en la USAC, el proceso fue muy bueno, pero al salir,
+mi carro tenía pinchadas las llantas, esto me preocupó
+y me fui decepcionado. neutro
+</mensaje>
+
+
+<mensaje>Lugar y fecha: Guatemala, 03/04/2022 15:01 Usuario:
+map0001@usac.edu Red social: Twitter
+bueno malo. UMG neutro
+</mensaje>
+   </lista_mensajes>
+</solicitud_clasificacion>
+
+"""
+
+analizar(texto)

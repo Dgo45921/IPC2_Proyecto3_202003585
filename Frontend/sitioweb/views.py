@@ -49,8 +49,14 @@ def limpia_base(request):
 def info_resumen_fecha(request):
     fecha = request.POST.get('date_selector', "all")
     name_empresa = request.POST.get('campo_empresa', "all")
+    xml_texto = Respuesta.objects.last().texto
 
+    if fecha != "all":
+        datos_fecha = fecha.split("-")
+        fecha = datos_fecha[2] + "/" + datos_fecha[1] + "/" + datos_fecha[0]
 
-    print("nombre de la empresa: ", name_empresa)
-    print("fecha a buscar: ", fecha)
+    info = {"empresa": name_empresa, "fecha": fecha, "xml": xml_texto}
+
+    respuesta = requests.post("http://127.0.0.1:5000/resumen_fecha", json=info)
+
     return render(request, 'sitioweb/resumen_fecha.html')
