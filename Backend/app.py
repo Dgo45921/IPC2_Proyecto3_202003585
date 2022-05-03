@@ -1,6 +1,7 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import ManejoXML
+import Manejo_Peticiones
 
 app = Flask(__name__)
 CORS(app)
@@ -31,10 +32,15 @@ def generar_resumen_fecha():
     date = request.json["fecha"]
     empresa = request.json["empresa"]
     texto_xml = request.json["xml"]
-
-    print("La empresa: ", empresa)
-    print("La fecha: ", date)
-    print("el xml es: ", texto_xml)
+    if date == "all" and empresa == "all":
+        respuesta = Manejo_Peticiones.cuenta_todas_fechas_y_empresas(texto_xml)
+        return jsonify(respuesta)
+    elif date == "all" and empresa != "all":
+        respuesta = Manejo_Peticiones.cuenta_todas_fechas_y_una_empresa(texto_xml, empresa)
+        return jsonify(respuesta)
+    # print("La empresa: ", empresa)
+    # print("La fecha: ", date)
+    # print("el xml es: ", texto_xml)
 
     return "hola"
 

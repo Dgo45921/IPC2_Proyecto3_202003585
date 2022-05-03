@@ -394,7 +394,6 @@ def check_word_in_string(cadena, lista):
     return False
 
 
-
 def prettify(elem):
     """Return a pretty-printed XML string for the Element.
     """

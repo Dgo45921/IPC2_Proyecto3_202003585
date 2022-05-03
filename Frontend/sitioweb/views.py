@@ -36,7 +36,7 @@ def obtiene_data_mensaje_prueba(request):
 
 def obtiene_ultimo_registro(request):
     texto = Respuesta.objects.last().texto
-    print(texto)
+    # print(texto)
     return render(request, 'sitioweb/index.html', {"output": texto})
 
 
@@ -58,5 +58,10 @@ def info_resumen_fecha(request):
     info = {"empresa": name_empresa, "fecha": fecha, "xml": xml_texto}
 
     respuesta = requests.post("http://127.0.0.1:5000/resumen_fecha", json=info)
+    total = respuesta.json()["total"]
+    positivas = respuesta.json()["positivas"]
+    negativas = respuesta.json()["negativas"]
+    neutras = respuesta.json()["neutras"]
+    print(total, positivas, negativas, neutras)
 
     return render(request, 'sitioweb/resumen_fecha.html')
