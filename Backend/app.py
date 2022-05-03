@@ -35,17 +35,24 @@ def generar_resumen_fecha():
     texto_xml = request.json["xml"]
     if date == "all" and empresa == "all":
         respuesta = Manejo_Peticiones.cuenta_todas_fechas_y_empresas(texto_xml)
+        respuesta["fecha"] = "todas"
+        respuesta["empresa"] = "todas"
         return jsonify(respuesta)
     elif date == "all" and empresa != "all":
         respuesta = Manejo_Peticiones.cuenta_todas_fechas_y_una_empresa(texto_xml, empresa)
+        respuesta["fecha"] = "todas"
+        respuesta["empresa"] = empresa
         return jsonify(respuesta)
     elif date != "all" and empresa == "all":
         respuesta = Manejo_Peticiones.cuenta_fecha_especifica_y_todas_empresas(texto_xml, date)
+        respuesta["fecha"] = date
+        respuesta["empresa"] = "todas"
         return jsonify(respuesta)
     elif date != "all" and empresa != "all":
         respuesta = Manejo_Peticiones.fecha_especifica_y_empresa_especifica(texto_xml, date, empresa)
+        respuesta["fecha"] = date
+        respuesta["empresa"] = empresa
         return jsonify(respuesta)
-
 
 
 if __name__ == '__main__':

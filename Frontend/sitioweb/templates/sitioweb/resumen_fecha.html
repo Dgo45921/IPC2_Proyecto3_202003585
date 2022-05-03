@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Resumen por fecha</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js" type="text/javascript"></script>
     <link rel="stylesheet" href="{% static 'css/bootstrap/css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="{% static 'css/css/Navbar-Right-Links.css'%}">
     <link rel="stylesheet" href="{% static 'css/css/styles.css'%}">
@@ -59,15 +60,66 @@
         <input type='text' name='campo_empresa' id='campo_empresa' style="position: absolute; top: 300px; left: 400px" disabled />
         <input type="date" id="date_selector" name="date_selector" style="position: absolute; top: 400px; left: 400px" disabled>
 </form>
-    <script src="{% static 'css/bootstrap/js/bootstrap.min.js'%}"></script>
-    <script src="{% static 'css/bootstrap/js/funciones.js'%}"></script>
-</body>
+    <canvas id="grafica" width="600" height="400" style="position: absolute; left: 900px; top: 260px"></canvas>
 
-</html>
+    <script>
 
+        mensajes_total = {{total}}
+        mensajes_positivos = {{positivos}}
+        mensajes_negativos = {{negativos}}
+        mensajes_neutros = {{neutros}}
+        fecha = "{{date}}"
+        empresa = "{{empresa}}"
+
+        var graph = document.getElementById("grafica").getContext("2d");
+
+        var Data = {
+    labels: [
+        "Total",
+        "Positivos",
+        "Negativos",
+        "Neutros"
+    ],
+    datasets: [{
+        label: "data",
+        data: [mensajes_total, mensajes_positivos, mensajes_negativos, mensajes_neutros],
+        backgroundColor: ["blue", "green", "red", "gray"],
+    }]
+};
+
+        var MeSeChart = new Chart(graph, {
+    type: 'horizontalBar',
+    data: Data,
+    options: {
+        responsive: false,
+        maintainAspectRatio: true,
+        scales: {
+            xAxes: [{
+                ticks: {
+            		beginAtZero: true
+                }
+            }],
+            yAxes: [{
+            	stacked: true
+            }]
+        },
+        title: {
+        display: true,
+        text: 'Cantidad de mensajes de la fecha: ' + fecha + " y la empresa: " + empresa
+      }
+    }
+});
+
+
+
+
+
+    </script>
+
+<script src="{% static 'css/bootstrap/js/bootstrap.min.js'%}"></script>
+<script src="{% static 'css/bootstrap/js/funciones.js'%}"></script>
 <script>
-
-    var myselect = document.getElementById('select_empresa');
+var myselect = document.getElementById('select_empresa');
 
 
 myselect.onchange = function() {
@@ -98,3 +150,7 @@ select_fecha.onchange = function() {
 
 
 </script>
+</body>
+
+</html>
+

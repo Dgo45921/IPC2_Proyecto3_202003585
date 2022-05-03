@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect
 from .models import Respuesta
 import requests, datetime
@@ -62,6 +64,13 @@ def info_resumen_fecha(request):
     positivas = respuesta.json()["positivas"]
     negativas = respuesta.json()["negativas"]
     neutras = respuesta.json()["neutras"]
+    date = respuesta.json()["fecha"]
+    empresa = respuesta.json()["empresa"]
     print(total, positivas, negativas, neutras)
 
-    return render(request, 'sitioweb/resumen_fecha.html')
+    return render(request, 'sitioweb/resumen_fecha.html', {"date": date,
+                                                           "empresa": empresa,
+                                                           "total": total,
+                                                           "positivos": positivas,
+                                                           "negativos": negativas,
+                                                           "neutros": neutras})
