@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Resumen por fecha</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
     <link rel="stylesheet" href="{% static 'css/bootstrap/css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="{% static 'css/css/Navbar-Right-Links.css'%}">
     <link rel="stylesheet" href="{% static 'css/css/styles.css'%}">
@@ -27,7 +29,7 @@
                             <a href="/obtieneultimoregistro/" class="dropdown-item">Consultar Datos</a>
                             <a href="/resumen_fecha/" class="dropdown-item">Resumen de clasificación por fecha</a>
                             <a href="/info_resumen_rango_fecha/" class="dropdown-item">Resumen por rango de fechas</a>
-                            <a href="#" class="dropdown-item">Reporte en PDF</a>
+                            <a href="#" class="dropdown-item" id="reporte_fecha" onclick="genera_pdf_fecha()">Reporte en PDF</a>
                             <a href="/mensaje_prueba/" class="dropdown-item">Prueba de mensaje</a>
                         </div>
                 </li>
