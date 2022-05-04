@@ -6,12 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Resumen rango fechas</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
     <link rel="stylesheet" href="{% static 'css/bootstrap/css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="{% static 'css/css/Navbar-Right-Links.css'%}">
     <link rel="stylesheet" href="{% static 'css/css/styles.css'%}">
 </head>
 
 <body>
+<button type="button" id="boton_rango" style="display: none" onclick="genera_pdf_rango_fechas()"> hola</button>
     <nav class="navbar navbar-light navbar-expand-md py-3">
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-bezier">
                         <path fill-rule="evenodd" d="M0 10.5A1.5 1.5 0 0 1 1.5 9h1A1.5 1.5 0 0 1 4 10.5v1A1.5 1.5 0 0 1 2.5 13h-1A1.5 1.5 0 0 1 0 11.5v-1zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zm10.5.5A1.5 1.5 0 0 1 13.5 9h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5v-1zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM6 4.5A1.5 1.5 0 0 1 7.5 3h1A1.5 1.5 0 0 1 10 4.5v1A1.5 1.5 0 0 1 8.5 7h-1A1.5 1.5 0 0 1 6 5.5v-1zM7.5 4a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1z"></path>
@@ -27,7 +30,7 @@
                             <a href="/obtieneultimoregistro/" class="dropdown-item">Consultar Datos</a>
                             <a href="/resumen_fecha/" class="dropdown-item">Resumen de clasificación por fecha</a>
                             <a href="/info_resumen_rango_fecha/" class="dropdown-item">Resumen por rango de fechas</a>
-                            <a href="#" class="dropdown-item">Reporte en PDF</a>
+                            <a href="#" class="dropdown-item" id="reporte_rango">Reporte en PDF</a>
                             <a href="/mensaje_prueba/" class="dropdown-item">Prueba de mensaje</a>
                         </div>
                 </li>
