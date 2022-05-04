@@ -55,5 +55,21 @@ def generar_resumen_fecha():
         return jsonify(respuesta)
 
 
+@app.route('/resumen_rango_fechas', methods=["POST"])
+def generar_resumen_rango_fechas():
+    fecha_inicio = request.json["fecha_inicio"]
+    fecha_final = request.json["fecha_final"]
+    empresa = request.json["empresa"]
+    xml = request.json["xml"]
+    # print(xml)
+    # print(fecha_inicio, fecha_final, empresa)
+    if empresa == "all":
+        Manejo_Peticiones.resumen_rango_todas_las_empresas(fecha_inicio, fecha_final, xml)
+    else:
+        pass
+
+    return "recibido"
+
+
 if __name__ == '__main__':
     app.run(debug=True)

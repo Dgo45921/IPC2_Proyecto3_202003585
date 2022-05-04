@@ -18,6 +18,10 @@ def resumen_fecha(request):
     return render(request, 'sitioweb/resumen_fecha.html')
 
 
+def resumen_rango_fecha(request):
+    return render(request, 'sitioweb/resumen_rango_fechas.html')
+
+
 def obtienedata(request):
     xml_recibido = request.POST['input']
     diccionario = {"xml": xml_recibido}
@@ -74,3 +78,22 @@ def info_resumen_fecha(request):
                                                            "positivos": positivas,
                                                            "negativos": negativas,
                                                            "neutros": neutras})
+
+
+def info_resumen_rango_fechas(request):
+    name_empresa = request.POST.get('campo_empresa', "all")
+    fecha_inicio = request.POST.get('low_date', "none")
+    fecha_final = request.POST.get('high_date', "none")
+    if fecha_inicio != "none":
+        datos_fecha = fecha_inicio.split("-")
+        fecha_inicio = datos_fecha[2] + "/" + datos_fecha[1] + "/" + datos_fecha[0]
+
+    if fecha_final != "none":
+        datos_fecha = fecha_final.split("-")
+        fecha_final = datos_fecha[2] + "/" + datos_fecha[1] + "/" + datos_fecha[0]
+
+    xml_texto = Respuesta.objects.last().texto
+
+    info = {"fecha_inicio": fecha_inicio, "fecha_final": fecha_final,"empresa": name_empresa, "xml": xml_texto}
+    respuesta = requests.post("http://127.0.0.1:5000/resumen_rango_fechas", json=info)
+    return render(request, 'sitioweb/resumen_rango_fechas.html')

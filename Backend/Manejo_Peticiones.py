@@ -80,3 +80,11 @@ def fecha_especifica_y_empresa_especifica(texto, fecha, name_empresa):
     diccionario = {"total": contador_total, "positivas": contador_positivas, "negativas": contador_negativas,
                    "neutras": contador_neutras}
     return diccionario
+
+
+def resumen_rango_todas_las_empresas(fecha_inicial, fecha_final, texto_xml):
+    contador_total = 0
+    contador_positivas = 0
+    contador_negativas = 0
+    contador_neutras = 0
+    raiz = ET.fromstring(texto_xml)
