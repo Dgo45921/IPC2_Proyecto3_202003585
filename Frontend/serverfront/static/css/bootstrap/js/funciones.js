@@ -77,3 +77,7 @@ function genera_pdf_entrada_salida_prueba(){
     doc.setFontSize(1);
     doc.save("Reporte_entrada_salida")
 }
+
+function abrir_pdf(){
+    window.open("https://drive.google.com/file/d/1sx95lW6Fx49RByT55N7ByBET7LeXcUjc/view?usp=sharing")
+}
