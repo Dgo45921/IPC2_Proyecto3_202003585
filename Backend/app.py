@@ -64,7 +64,8 @@ def generar_resumen_rango_fechas():
     # print(xml)
     # print(fecha_inicio, fecha_final, empresa)
     if empresa == "all":
-        Manejo_Peticiones.resumen_rango_todas_las_empresas(fecha_inicio, fecha_final, xml)
+        respuesta = Manejo_Peticiones.resumen_rango_todas_las_empresas(fecha_inicio, fecha_final, xml)
+        return respuesta
     else:
         pass
 

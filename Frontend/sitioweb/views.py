@@ -96,4 +96,6 @@ def info_resumen_rango_fechas(request):
 
     info = {"fecha_inicio": fecha_inicio, "fecha_final": fecha_final,"empresa": name_empresa, "xml": xml_texto}
     respuesta = requests.post("http://127.0.0.1:5000/resumen_rango_fechas", json=info)
+
+    print(respuesta.text)
     return render(request, 'sitioweb/resumen_rango_fechas.html')
