@@ -14,15 +14,15 @@ def Index():
 
 @app.route('/procesarxml', methods=["POST"])
 def procesar_xml():
-    data = request.json["xml"]
-    texto_xml = ManejoXML.analizar(data)
+    dato = request.data.decode("unicode_escape")
+    texto_xml = ManejoXML.analizar(dato)
     return texto_xml
 
 
 @app.route('/procesarxml_prueba', methods=["POST"])
 def procesar_xml_prueba():
-    data = request.json["xml"]
-    resultado = ManejoXML.analizar_prueba(data)
+    dato = request.data.decode("unicode_escape")
+    resultado = ManejoXML.analizar_prueba(dato)
     # print(resultado)
     return resultado
 

@@ -1,5 +1,5 @@
 import json
-
+from unidecode import unidecode
 from django.shortcuts import render, redirect
 from .models import Respuesta
 import requests, datetime
@@ -24,8 +24,8 @@ def resumen_rango_fecha(request):
 
 def obtienedata(request):
     xml_recibido = request.POST['input']
-    diccionario = {"xml": xml_recibido}
-    respuesta = requests.post("http://127.0.0.1:5000/procesarxml", json=diccionario)
+    headers = {'Content-Type': 'application/xml; charset=utf-8'}
+    respuesta = requests.post("http://127.0.0.1:5000/procesarxml", data=xml_recibido, headers=headers)
     now = datetime.datetime.now()
     dt_string = now.strftime("%Y_%m_%d_%H_%M_%S")
     name = "respuesta_" + dt_string
@@ -35,8 +35,8 @@ def obtienedata(request):
 
 def obtiene_data_mensaje_prueba(request):
     xml_recibido = request.POST['input']
-    diccionario = {"xml": xml_recibido}
-    respuesta = requests.post("http://127.0.0.1:5000/procesarxml_prueba", json=diccionario)
+    headers = {'Content-Type': 'application/xml; charset=utf-8'}
+    respuesta = requests.post("http://127.0.0.1:5000/procesarxml_prueba", data=xml_recibido, headers=headers)
     return render(request, 'sitioweb/mensaje_prueba.html', {"input": xml_recibido, "output": respuesta.text})
 
 
