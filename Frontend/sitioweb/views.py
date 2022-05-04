@@ -96,6 +96,16 @@ def info_resumen_rango_fechas(request):
 
     info = {"fecha_inicio": fecha_inicio, "fecha_final": fecha_final,"empresa": name_empresa, "xml": xml_texto}
     respuesta = requests.post("http://127.0.0.1:5000/resumen_rango_fechas", json=info)
-
     print(respuesta.text)
-    return render(request, 'sitioweb/resumen_rango_fechas.html')
+    total = respuesta.json()["total"]
+    positivas = respuesta.json()["positivas"]
+    negativas = respuesta.json()["negativas"]
+    neutras = respuesta.json()["neutras"]
+    date = respuesta.json()["date"]
+    empresa = respuesta.json()["empresa"]
+    return render(request, 'sitioweb/resumen_rango_fechas.html', {"date": date,
+                                                           "empresa": empresa,
+                                                           "total": total,
+                                                           "positivos": positivas,
+                                                           "negativos": negativas,
+                                                           "neutros": neutras})

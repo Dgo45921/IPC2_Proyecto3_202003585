@@ -65,7 +65,7 @@ def generar_resumen_rango_fechas():
     # print(fecha_inicio, fecha_final, empresa)
     if empresa == "all":
         respuesta = Manejo_Peticiones.resumen_rango_todas_las_empresas(fecha_inicio, fecha_final, xml)
-        return respuesta
+        return jsonify(respuesta)
     else:
         pass
 

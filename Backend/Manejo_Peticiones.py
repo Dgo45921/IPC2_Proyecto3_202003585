@@ -94,30 +94,30 @@ def resumen_rango_todas_las_empresas(fecha_inicial, fecha_final, texto_xml):
     contador_negativas = 0
     contador_neutras = 0
     raiz = ET.fromstring(texto_xml)
-    fecha_inicial = crear_tupla_fecha(fecha_inicial)
-    fecha_final = crear_tupla_fecha(fecha_final)
+    fecha_inicial2 = crear_tupla_fecha(fecha_inicial)
+    fecha_final2 = crear_tupla_fecha(fecha_final)
 
     for respuesta in raiz.findall("./respuesta"):
-        lista_empresas_actuales = []
-        fecha_actual = respuesta.find("./fecha").text.replace(" ", "")
         fecha_actual2 = respuesta.find("./fecha").text.replace(" ", "")
         fecha_actual2 = crear_tupla_fecha(fecha_actual2)
-        if fecha_final >= fecha_actual2 >= fecha_inicial:
+        if fecha_final2 >= fecha_actual2 >= fecha_inicial2:
             for empresa in respuesta.findall("./analisis/empresa"):
-                diccionario_empresa = {
-                    "name_empresa": empresa.get("nombre"),
-                    "total": int(empresa.find("./mensajes/total").text),
-                    "positivos": int(empresa.find("./mensajes/positivos").text),
-                    "negativos": int(empresa.find("./mensajes/negativos").text),
-                    "neutros": int(empresa.find("./mensajes/neutros").text)
-                }
-                lista_empresas_actuales.append(diccionario_empresa)
-            diccionario_respuesta = {
-                "fecha": fecha_actual,
-                "empresas": lista_empresas_actuales
-            }
-            lista_respuestas_fecha.append(diccionario_respuesta)
-    return json.dumps(lista_respuestas_fecha, indent=4)
+                contador_total += int(empresa.find("./mensajes/total").text)
+                contador_positivas += int(empresa.find("./mensajes/positivos").text)
+                contador_negativas += int(empresa.find("./mensajes/negativos").text)
+                contador_neutras += int(empresa.find("./mensajes/neutros").text)
+
+    fecha_inicial += " - " + fecha_final
+    diccionario = {
+        "date": fecha_inicial,
+        "total": contador_total,
+        "positivas": contador_positivas,
+        "negativas": contador_negativas,
+        "neutras": contador_neutras,
+        "empresa": "all"
+    }
+
+    return diccionario
 
 
 def crear_tupla_fecha(fecha):
