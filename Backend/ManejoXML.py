@@ -14,6 +14,7 @@ mensajes_positivos = []
 mensajes_negativos = []
 palabras_negativas = []
 palabras_positivas = []
+xml_almacenado = ""
 
 
 def analizar(texto):
@@ -137,10 +138,17 @@ def analizar_mensaje_prueba(objeto_mensaje):
     tag_positivas.text = str(contadores_prueba[1])
     tag_negativas = SubElement(raiz, "palabras_negativas")
     tag_negativas.text = str(contadores_prueba[2])
-    tag_sentimiento_positivo = SubElement(raiz, "sentimiento_positivo")
-    tag_sentimiento_positivo.text = str((contadores_prueba[1] / total_palabras) * 100) + " %"
-    tag_sentimiento_negativo = SubElement(raiz, "sentimiento_negativo")
-    tag_sentimiento_negativo.text = str((contadores_prueba[2] / total_palabras) * 100) + " %"
+    if total_palabras == 0:
+        tag_sentimiento_positivo = SubElement(raiz, "sentimiento_positivo")
+        tag_sentimiento_positivo.text = str(0) + " %"
+        tag_sentimiento_negativo = SubElement(raiz, "sentimiento_negativo")
+        tag_sentimiento_negativo.text = str(0) + " %"
+    else:
+        tag_sentimiento_positivo = SubElement(raiz, "sentimiento_positivo")
+        tag_sentimiento_positivo.text = str((contadores_prueba[1] / total_palabras) * 100) + " %"
+        tag_sentimiento_negativo = SubElement(raiz, "sentimiento_negativo")
+        tag_sentimiento_negativo.text = str((contadores_prueba[2] / total_palabras) * 100) + " %"
+
     tag_sentimiento_analizado = SubElement(raiz, "sentimiento_analizado")
     if contadores_prueba[1] > contadores_prueba[2]:
         tag_sentimiento_analizado.text = "positivo"
@@ -197,6 +205,7 @@ def analizar_mensajes():
 
 
 def crear_xml():
+    global xml_almacenado
     fechas_leidas = []
     empresas_leidas = []
     raiz = Element("lista_respuestas")
@@ -253,7 +262,7 @@ def crear_xml():
                 negativos_servicio.text = str(lista_contadores_servicio[2])
                 neutros_servicio = SubElement(tag_mensajes_servicio, "neutros")
                 neutros_servicio.text = str(lista_contadores_servicio[3])
-
+    xml_almacenado = prettify(raiz)
     return prettify(raiz)
 
 

@@ -34,7 +34,7 @@ def generar_resumen_fecha():
     date = request.json["fecha"]
     print(date)
     empresa = request.json["empresa"]
-    texto_xml = request.json["xml"]
+    texto_xml = ManejoXML.xml_almacenado
     if date == "all" and empresa == "all":
         respuesta = Manejo_Peticiones.cuenta_todas_fechas_y_empresas(texto_xml)
         respuesta["fecha"] = "todas"
@@ -62,7 +62,7 @@ def generar_resumen_rango_fechas():
     fecha_inicio = request.json["fecha_inicio"]
     fecha_final = request.json["fecha_final"]
     empresa = request.json["empresa"]
-    xml = request.json["xml"]
+    xml = ManejoXML.xml_almacenado
     # print(fecha_inicio, fecha_final, empresa)
     if empresa == "all":
         respuesta = Manejo_Peticiones.resumen_rango_todas_las_empresas(fecha_inicio, fecha_final, xml)
@@ -71,6 +71,19 @@ def generar_resumen_rango_fechas():
         respuesta = Manejo_Peticiones.resumen_rango_empresa_especifica(fecha_inicio, fecha_final, xml, empresa)
         print(json.dumps(respuesta))
         return jsonify(respuesta)
+
+
+@app.route('/get_xml', methods=["GET"])
+def obtiene_datos():
+    return ManejoXML.xml_almacenado
+
+
+@app.route('/reset', methods=["DELETE"])
+def resetear_datos():
+    ManejoXML.xml_almacenado = ""
+    ManejoXML.palabras_negativas.clear()
+    ManejoXML.palabras_positivas.clear()
+    return "base de datos limpia"
 
 
 if __name__ == '__main__':

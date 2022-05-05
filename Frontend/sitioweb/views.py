@@ -41,7 +41,7 @@ def obtiene_data_mensaje_prueba(request):
 
 
 def obtiene_ultimo_registro(request):
-    texto = Respuesta.objects.last().texto
+    texto = requests.get("http://127.0.0.1:5000/get_xml").text
     # print(texto)
     return render(request, 'sitioweb/index.html', {"output": texto})
 
@@ -49,19 +49,19 @@ def obtiene_ultimo_registro(request):
 def limpia_base(request):
     print("borrando base")
     Respuesta.objects.all().delete()
+    requests.delete("http://127.0.0.1:5000/reset")
     return render(request, 'sitioweb/index.html')
 
 
 def info_resumen_fecha(request):
     fecha = request.POST.get('date_selector', "all")
     name_empresa = request.POST.get('campo_empresa', "all")
-    xml_texto = Respuesta.objects.last().texto
 
     if fecha != "all":
         datos_fecha = fecha.split("-")
         fecha = datos_fecha[2] + "/" + datos_fecha[1] + "/" + datos_fecha[0]
 
-    info = {"empresa": name_empresa, "fecha": fecha, "xml": xml_texto}
+    info = {"empresa": name_empresa, "fecha": fecha}
 
     respuesta = requests.post("http://127.0.0.1:5000/resumen_fecha", json=info)
     total = respuesta.json()["total"]
@@ -92,9 +92,9 @@ def info_resumen_rango_fechas(request):
         datos_fecha = fecha_final.split("-")
         fecha_final = datos_fecha[2] + "/" + datos_fecha[1] + "/" + datos_fecha[0]
 
-    xml_texto = Respuesta.objects.last().texto
 
-    info = {"fecha_inicio": fecha_inicio, "fecha_final": fecha_final,"empresa": name_empresa, "xml": xml_texto}
+
+    info = {"fecha_inicio": fecha_inicio, "fecha_final": fecha_final,"empresa": name_empresa}
     respuesta = requests.post("http://127.0.0.1:5000/resumen_rango_fechas", json=info)
     print(respuesta.text)
     total = respuesta.json()["total"]
