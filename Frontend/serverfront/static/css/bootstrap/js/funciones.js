@@ -79,5 +79,5 @@ function genera_pdf_entrada_salida_prueba(){
 }
 
 function abrir_pdf(){
-    window.open("https://drive.google.com/file/d/1sx95lW6Fx49RByT55N7ByBET7LeXcUjc/view?usp=sharing")
+    window.open("https://drive.google.com/file/d/11LAfOzB6XUBEWgUUPWOjeSrjEs4HOgmv/view?usp=sharing")
 }
